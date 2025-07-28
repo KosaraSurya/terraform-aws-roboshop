@@ -69,7 +69,7 @@ resource "aws_ec2_instance_state" "main" {
 resource "aws_ami_from_instance" "main" {
   name               = "${var.project}-${var.environment}-${var.component}"
   source_instance_id = aws_instance.main.id
-  depends_on = [ aws_ec2_instance_state.main ]
+  depends_on = [aws_ec2_instance_state.main]
   tags = merge(
     local.common_tags,{
       Name ="${var.project}-${var.environment}-${var.component}"
@@ -139,7 +139,7 @@ resource "aws_autoscaling_group" "main" {
   min_size           = 1
   health_check_grace_period = 90
   health_check_type         = "ELB"
-  target_group_arns = [aws_lb_target_group.main.id]
+  target_group_arns = [aws_lb_target_group.main.arn]
   vpc_zone_identifier = local.private_subnet_ids
 
   launch_template {
